@@ -10,11 +10,18 @@ Modify the number of repetitions in the simulation to 100 (from the original 100
 
 Alter the code so that it is reproducible. Describe the changes you made to the code and how they affected the reproducibility of the script file. The output does not need to match Whitby’s original blogpost/graphs, it just needs to produce the same output when run multiple times
 
-# Author: YOUR NAME
+# Author: Daniel Troniak
 
 ```
-Please write your explanation here...
+All stages of sampling are occurring in the model: 
+    (1) initial event assignment of 1000 events using a binomial distribution through list comprehension and DataFrame creation. the sampling frame represents weddings and brunches, as mirrored in the blog post 
+    (2) uniform random infection sampling ATTACK_RATE percentage of the population (sampling frame of 1000 * ATTACK_RATE = 100) using np.random.choice(), mirroring the blog post stating that 10% of individuals are infrected 
+    (3) uniform random primary contact trace sampling TRACE_SUCCESS percentage of the sampling frame of infected individuals at random using np.random.rand() with a sample size of 100, mirroring the blog post stating that 20% chance of being traced
+    (4) secondary contact tracing conditionally sampling all infected individuals from the sampling frame of all traced events with SECONDARY_TRACE_THRESHOLD or more infected individuals using value_counts() and conditional indexing. This is related to the blog post which describes that if two infections are traced to the same event, all individuals from the that event are tested.
 
+No, the current implementation isn't showing the same degree of overestimation of wedding cases that the blog post described and illustrated.
+
+It produces slightly different results each time I run it. I modified the code to make it reproducible by setting the random seed to a fixed value.
 ```
 
 
